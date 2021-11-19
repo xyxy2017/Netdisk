@@ -1,0 +1,4 @@
+bin存放配置文件
+conf存放执行程序
+include存放头文件
+src存放源代码
