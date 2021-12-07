@@ -2,7 +2,7 @@
 
 int tcp_init(int *sfd,char *argv[])
 {
-    //printf("ip=%s,port=%s\n",argv[1],argv[2]);
+    printf("ip=%s,port=%s\n",argv[1],argv[2]);
     *sfd = socket(AF_INET,SOCK_STREAM,0);
     ERROR_CHECK(*sfd,-1,"socket");
     struct sockaddr_in ser_addr;
