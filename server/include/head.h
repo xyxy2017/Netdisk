@@ -1,5 +1,6 @@
 #ifndef __HEAD__
 #define __HEAD__
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,8 +28,9 @@
 #include <pwd.h>
 #include <time.h>
 #include <strings.h>
-#include <sys/epoll.h>
+//#include <sys/epoll.h>
 #include <sys/sendfile.h>
+#include <mysql/mysql.h>
 #define ARGS_CHECK(argc,num){if(argc!=num){\
     fprintf(stderr,"Args Error!\n");\
     return -1;\
