@@ -11,8 +11,8 @@ password为数据库登录密码
 database为本项目所用数据库名称，提前创建好。  
 数据库设计见截图。    
 # 编译
-在server/src中使用'make'指令  
-在client中使用'make'指令  
+在server/src中使用make指令  
+在client中使用make指令  
 # 启动
 启动服务器命令  
 ./server 服务器ip 服务器端口 线程数目 队列容量  
