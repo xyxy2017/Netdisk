@@ -1,0 +1,5 @@
+server/src/server
+client/client
+server/filesystem
+client/file*
+/.*.
