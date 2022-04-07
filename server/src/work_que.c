@@ -11,7 +11,7 @@ int que_init(pque_t pq,int capacity)
 int que_get(pque_t pq,pnode_t *ppcur)
 {
     if(pq->que_size){
-        //头部删除法从队列里去元素
+        //头部删除法从队列里取元素
         *ppcur = pq->que_head;
         pq->que_head = pq->que_head->pnext;
         pq->que_size--;

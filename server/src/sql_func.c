@@ -260,8 +260,6 @@ int sql_regist(MYSQL *conn,ppasswd_t passwd){
     char query[300]="INSERT INTO usertable(username,salt,ciphertext) VALUES('";
     sprintf(query,"%s%s%s%s%s%s%s",query,passwd->username,"','",passwd->salt,"','",passwd->ciphertext,"')");
     puts(query);//打印sql命令
-    //char send_buf[1000]={0};
-    //int send_len;
     unsigned int t;
     t=mysql_query(conn,query); 
     if(t)
@@ -287,13 +285,11 @@ int sql_salt(MYSQL *conn,ppasswd_t passwd){
     {
         printf("Error making query:%s\n",mysql_error(conn));
     }else{
-        //  printf("Query made...\n");
         res=mysql_use_result(conn);
         if(res)
         {
             while((row=mysql_fetch_row(res))!=NULL)
             {   
-                //printf("num=%d\n",mysql_num_fields(res));//列数
                 for(t=0;t<mysql_num_fields(res);t++)//mysql_num_fields获取一行有几列
                 {
                     printf("%8s ",row[t]);
@@ -301,10 +297,8 @@ int sql_salt(MYSQL *conn,ppasswd_t passwd){
                 }
                 printf("\n");
             }
-            //strcat(send_buf,"\n");
             printf("salt=%s\n",salt);
             strcpy(passwd->salt,salt);
-            //send_len=strlen(send_buf);
         }else{
             printf("Don't find data\n");
         }
@@ -332,7 +326,6 @@ int sql_ciphertext(MYSQL *conn,ppasswd_t passwd){
         {
             while((row=mysql_fetch_row(res))!=NULL)
             {   
-                //printf("num=%d\n",mysql_num_fields(res));//列数
                 for(t=0;t<mysql_num_fields(res);t++)//mysql_num_fields获取一行有几列
                 {
                     printf("%8s ",row[t]);
@@ -340,10 +333,8 @@ int sql_ciphertext(MYSQL *conn,ppasswd_t passwd){
                 }
                 printf("\n");
             }
-            //strcat(send_buf,"\n");
             printf("passwd->ciphertext=%s\n",ciphertext);
             strcpy(passwd->ciphertext,ciphertext);
-            //send_len=strlen(send_buf);
         }else{
             printf("Don't find data\n");
         }

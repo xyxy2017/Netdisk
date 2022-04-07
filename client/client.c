@@ -2,24 +2,23 @@
 //管道默认大小
 #define pipe_size 32768
 int recvn(int sfd,void *pstart,int len){
-    int total=0,ret;
+    int total = 0, ret;
     char *p = (char*)pstart;
-    while(total<len){
-        //printf("in recvn\n");
-        ret = recv(sfd,p+total,len-total,MSG_WAITALL);//ret为0时说明对端已断开
-        if(ret==0){
+    while(total < len){
+        ret = recv(sfd,p + total, len - total, MSG_WAITALL);//ret为0时说明对端已断开
+        if(ret == 0){
             return -1;
         }
         total += ret;
     }
     return 0;
 }
-int sendn(int sfd,void *pstart,int send_len){
-    int total=0,num;
+int sendn(int sfd, void *pstart, int send_len){
+    int total = 0,num;
     char *p = (char*)pstart;
     while(total<send_len){
         num = send(sfd,p+total,send_len-total,0);
-        total+=num;
+        total += num;
     }
     return total;
 }
@@ -27,7 +26,7 @@ int main(int argc,char *argv[])
 {
     ARGS_CHECK(argc,3);
     int sfd = socket(AF_INET,SOCK_STREAM,0);//sfd为服务器文件描述符
-    ERROR_CHECK(sfd,-1,"socket");
+    ERROR_CHECK(sfd, -1, "socket");
     struct sockaddr_in sev_addr;
     bzero(&sev_addr,sizeof(sev_addr));
     sev_addr.sin_family = AF_INET;
@@ -41,19 +40,6 @@ int main(int argc,char *argv[])
     char recv_buf[1000] = {0};
     char username[16]={0},plaintext[32]={0},salt[12]={0};
     char *ciphertext;
-    //test Compute_file_md5
-    //char *file_path = "temp";
-    //char md5_str[MD5_STR_LEN + 1];
-    //ret = Compute_file_md5(file_path, md5_str);//计算md5接口                                 
-    //printf("ret=%d\n",ret);
-    //if (0 == ret)
-    //{
-    //    printf("[file - %s] md5 value:\n", file_path);
-    //    printf("%s\n", md5_str);
-
-    //}
-    
-    //char ciphertext[128]={0};
     //登录或注册
     while(1){
         printf("请输入：1.注册 2.登录\n");
@@ -68,17 +54,11 @@ int main(int argc,char *argv[])
             printf("请输入用户名:\n");
             read(STDIN_FILENO,username,sizeof(username));//输入用户名
             send_len=strlen(username)-1;//不发送回车符
-            //send(sfd,&send_len,sizeof(int),0);
-            //sendn(sfd,username,send_len);
             send(sfd,username,send_len,0);
-            //recv(sfd,&recv_len,sizeof(int),0);
-            //recvn(sfd,salt,recv_len);
             recv(sfd,salt,sizeof(salt),0);
             printf("请输入密码:\n");
             read(STDIN_FILENO,plaintext,sizeof(plaintext));//输入密码
             ciphertext=crypt(plaintext,salt);
-            //printf("%s,%ld\n",ciphertext,strlen(ciphertext));
-            //strcpy(ciphertext,crypt(plaintext,salt));//两种赋值方法
             send(sfd,ciphertext,strlen(ciphertext),0);//发送密文
             break;
         }else if(flag==2){//登录
@@ -138,18 +118,6 @@ int main(int argc,char *argv[])
             recv(sfd,&file_exit_flag,sizeof(int),0);//接收flag
             if(file_exit_flag==0){//不存在相同文件，需传送
                 tran_file(sfd,filename);
-                //int fd;
-                //fd=open(filename,O_RDONLY);//打开文件
-                //ERROR_CHECK(fd,-1,"open");
-                //struct stat statbuf;
-                //ret = fstat(fd,&statbuf);
-                //off_t data_len = statbuf.st_size;//获得文件长度
-                //ret = send(sfd,&data_len,sizeof(data_len),MSG_NOSIGNAL);//发送文件长度
-                //ERROR_CHECK(ret,-1,"send");
-                ////发送文件内容，使用sendfile,一次性发送  
-                //ret = sendfile(sfd,fd,NULL,statbuf.st_size);
-                //ERROR_CHECK(ret,-1,"sendfile");
-                //close(fd);
             }else{//服务器有相同文件，实现妙传
                 printf("秒传，finish puts.\n");
             }
@@ -158,7 +126,6 @@ int main(int argc,char *argv[])
             printf("get gets\n");
             char filename[100]={0};
             get_filename(send_buf,send_len,filename);//获得文件名字
-            //get file
             get_file(sfd,filename);
 
         }else if(!strncmp(send_buf,"remove",6)){

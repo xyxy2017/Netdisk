@@ -51,13 +51,8 @@ int get_file(int sfd,char *filepath){
     ERROR_CHECK(fd,-1,"open");
     //接收文件长度
     off_t file_size,download_size=0,last_size=0;
-    //ret = recvn(p->new_fd,&len,4);
-    //RECVN_ERROR_CHECK(ret,-1,"recvn");
     ret = recv(sfd,&file_size,sizeof(file_size),0);//接收文件长度
-    //RECVN_ERROR_CHECK(ret,-1,"recvn");
     printf("filesize=%ld\n",file_size);
-    //off_t file_piece = file_size/1000;
-    //double percentage;
     time_t start,end;
     start = time(NULL);
     int fds[2];
